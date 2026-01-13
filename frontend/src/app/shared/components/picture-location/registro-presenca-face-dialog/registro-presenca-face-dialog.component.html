@@ -1,0 +1,38 @@
+<div class="camera-root">
+    <!-- Fonte escondida -->
+    <video #videoEl class="hidden" playsinline muted></video>
+
+    <!-- Preview da câmera -->
+    <canvas #canvasEl class="camera-canvas"></canvas>
+
+    <!-- Overlay: moldura oval + escurecimento fora do oval + texto + botão -->
+    <div class="overlay">
+        <div class="hint">Centralize seu rosto dentro da moldura</div>
+
+        <!-- Máscara escurecida com "buraco" oval -->
+        <svg class="mask" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <defs>
+                <mask id="faceHole">
+                    <rect x="0" y="0" width="100" height="100" fill="white"></rect>
+
+                    <!-- buraco central (vertical) -->
+                    <ellipse cx="50" cy="48" rx="20" ry="28" fill="none" stroke="white" stroke-width="1.8"></ellipse>
+                </mask>
+            </defs>
+
+            <!-- escurece fora -->
+            <rect x="0" y="0" width="100" height="100" fill="rgba(0,0,0,0.45)" mask="url(#faceHole)"></rect>
+
+            <!-- moldura -->
+            <ellipse cx="50" cy="50" rx="20" ry="28" fill="none" stroke="white" stroke-width="1.8"></ellipse>
+        </svg>
+
+
+        <!-- Botão -->
+        <div class="bottom">
+            <button mat-flat-button color="primary" class="close-btn" (click)="close()">
+                Fechar
+            </button>
+        </div>
+    </div>
+</div>

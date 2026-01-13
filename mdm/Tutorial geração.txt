@@ -1,0 +1,20 @@
+Para gerar seu projeto é preciso que primeiro voce siga a classe modelo do arquivo "mdm.mm" e faça sua modelagem, após isso, siga o passo a passo a seguir:
+salve o arquivo "mdm.mm" e abra o terminal na pasta onde o arquivo se encontra e execute os seguintes comandos:
+
+1) Para registrar o projeto:
+mi init app mdm.mm
+
+2) Para enviar o projeto para o mapperidea:
+mi push app
+
+3) Gerar o bash gerador de fontes:
+mi generate app mean bashGenerateAll > geraFontes.sh
+
+4) Dar permissão de execução do arquivo:
+chmod +x geraFontes.sh
+
+5) Gerar os Fontes execute com o GitBash:
+geraFontes.sh
+
+6) Criar Containers na raiz do projeto
+docker-compose up -d

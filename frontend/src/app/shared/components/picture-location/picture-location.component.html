@@ -1,0 +1,47 @@
+<div [class]="className">
+    <ng-container *ngIf="!showImageUrl; else showThumbnail">
+        <div class="flex flex-wrap items-center gap-3">
+            <span *ngIf="label" class="text-sm font-medium text-zinc-800">
+                {{ label }} <span *ngIf="isRequired" class="text-red-600">*</span>
+            </span>
+
+            <button mat-stroked-button color="primary" class="!rounded-xl" type="button"
+                (click)="startFaceRecognition()" [disabled]="isVerifyingFace || inputValue.disabled">
+                <mat-icon>photo_camera</mat-icon>
+                Verificar
+            </button>
+
+            <mat-progress-spinner *ngIf="isVerifyingFace" diameter="22" mode="indeterminate"></mat-progress-spinner>
+
+            <span *ngIf="faceScore != null" class="flex items-center gap-2 text-sm text-zinc-700">
+                <mat-icon [color]="faceOk ? 'primary' : 'warn'" style="font-size: 18px; height: 18px; width: 18px">
+                    {{ faceOk ? "check_circle" : "cancel" }}
+                </mat-icon>
+                <span>{{ faceOk ? "Permitido" : "Negado" }} ({{ faceScore }})</span>
+            </span>
+        </div>
+
+        <mat-card *ngIf="error" appearance="outlined" class="mt-3 rounded-xl border border-red-200 bg-red-50">
+            <div class="flex items-start gap-2 p-3 text-sm text-red-800">
+                <mat-icon class="mt-[1px]" color="warn">error</mat-icon>
+                <div>{{ error }}</div>
+            </div>
+        </mat-card>
+    </ng-container>
+
+    <!-- Thumbnail depois de salvar (igual antigo) -->
+    <ng-template #showThumbnail>
+        <div class="mt-3 rounded-2xl border border-slate-200 bg-white shadow-lg overflow-hidden">
+            <img [src]="savedImageUrl" alt="Thumbnail Image" class="w-full h-48 object-cover" />
+
+            <div class="p-2 flex justify-end bg-slate-50">
+                <button mat-icon-button type="button" (click)="clearImage()" matTooltip="Remover"
+                    class="text-slate-600">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<br />

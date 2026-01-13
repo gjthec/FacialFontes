@@ -1,0 +1,44 @@
+.btn-add {
+    margin-left: auto;
+    margin-bottom: 10px; // Adjust the margin as needed
+    margin-top: 40%;
+}
+
+.content{
+    display: flex; 
+    flex-direction: column; 
+    // width: 100%; 
+    // height: 76vh;
+    border: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+}
+
+:host {
+    grid-column: span 3;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #eaeaea;
+    color: white;
+    padding: 16px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    
+}
+
+.header-icon {
+    margin-right: 10px;
+    color: #3f51b5; /* Change this to your desired color */
+    font-size: 28px;
+}
+
+.header-title {
+    color: #333333; /* Off-black color */
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+  }
+  

@@ -1,0 +1,78 @@
+{
+    "config":{ 
+        "modified": "2025-12-22T16:39:43.508699Z", 
+        "description": "Cadastro de empresas, cada empresa tem suas unidades e plano de contas diferente.",  
+        "name": "Teste", 
+        "apiUrl": "api/teste",
+        "route": "teste",
+        "title": { 
+            "pt": "Teste", 
+            "en": "Entrerprise" 
+        }, 
+        "searchableFields": [
+           { 
+            "name": "nome", 
+            "type": "string" 
+           }
+        ], 
+
+        "localStorage": true,
+        "filter": true, 
+        "addNew": true, 
+        "edit": true, 
+        "columnsQuantity": 2,
+        "delete": true,
+        "isFormStepper": false,
+        "isLinearFormStepper": false
+    }, 
+    "attributes": [ 
+        { 
+            "name":"nome", 
+            "type": "string", 
+            "limiteOfChars": 60, 
+            "mask": "Texto", 
+            "isRequired": true, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+
+        { 
+            "name":"tipoPessoa", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt": "Fisica", 
+                    "en": "natural person", 
+                    "id": "Fisica" 
+                },
+                {
+                    "pt": "Juridica", 
+                    "en": "legal person ", 
+                    "id": "Juridica" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": true, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        {
+            "name": "foto",
+            "type": "pictureLocation",
+            "mask": "Texto",
+            "isRequired": true,
+            "visibleCard": true,
+            "visibleGrid": true,
+            "visibleFilter": true,
+            "visibleList": true,
+            "visibleForm": true
+        }
+        ] 
+}

@@ -1,0 +1,17 @@
+<mat-form-field style="width: 100%;" appearance="outline">
+    <mat-label><ng-container *transloco='let t; read:"componentsBase"'>{{ t('selector-list.search') }}</ng-container></mat-label>
+
+    <input matInput type="text" [formControl]="searchInputValue" />
+
+    <button mat-icon-button matSuffix class="h-full flex flex-col"
+        *ngIf="isFiltred"
+        (click)="clearSearchInput()">
+        <mat-icon>clear</mat-icon>
+    </button>
+
+    <button mat-icon-button matSuffix class="h-full flex flex-col"
+        (click)="openFilter(apiUrl, displayedfieldsName, fieldsType)">
+        <mat-icon svgIcon="filter_alt"></mat-icon>
+    </button>
+    
+</mat-form-field>

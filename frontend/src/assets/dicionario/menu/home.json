@@ -1,0 +1,25 @@
+{
+  "config": {
+    "modified": "2025-12-22T16:40:04.059187Z",
+    "name": "home",
+    "type": "sandwich",
+    "defaultMenu": true
+  },
+  "itens": [
+    {
+      "name": "Formulario",
+      "routeUrl": "/teste/new",
+      "icon": "feather:box"
+    },
+    {
+      "name": "Registro de Presença",
+      "routeUrl": "/registro-presenca",
+      "icon": "feather:check-square"
+    },
+    {
+      "name": "Registro",
+      "routeUrl": "/registro",
+      "icon": "feather:check-square"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+    "config":{ 
+        "modified": "2025-12-22T16:40:05.884718Z", 
+        "name": "home", 
+        "type": "sandwich",
+        "defaultMenu": true
+    }, 
+    "itens": [ 
+        { 
+            "name": "Formulario", 
+            "routeUrl": "/teste", 
+            "icon": "feather:box"
+        },
+        {
+            "name": "Registro",
+            "routeUrl": "/registro",
+            "icon": "feather:clipboard"
+        }
+    ] 
+}

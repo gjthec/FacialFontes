@@ -1,0 +1,85 @@
+{
+  "config": {
+    "modified": "2026-01-08T00:00:00.000Z",
+    "description": "Registro de presença: seleção de curso, matrícula e foto.",
+    "name": "RegistroPresenca",
+    "apiUrl": "api/registro",
+    "route": "registro",
+    "title": {
+      "pt": "Registro de Presença",
+      "en": "Attendance Check-in"
+    },
+    "searchableFields": [
+      {
+        "name": "matricula",
+        "type": "string"
+      }
+    ],
+    "localStorage": true,
+    "filter": true,
+    "addNew": true,
+    "edit": true,
+    "columnsQuantity": 2,
+    "delete": false,
+    "isFormStepper": true,
+    "steps": ["Curso","Matricula","Facial"],
+    "isLinearFormStepper": false
+  },
+  "attributes": [
+    {
+      "name": "cursoId",
+      "step": "Curso",
+      "type": "selector",
+      "optionList": [
+        {
+          "pt": "Engenharia de Software - Turma A",
+          "en": "Software Engineering - Class A",
+          "id": "c1"
+        },
+        {
+          "pt": "Física 1 - Turma B",
+          "en": "Physics 1 - Class B",
+          "id": "c2"
+        },
+        {
+          "pt": "Cálculo - Turma C",
+          "en": "Calculus - Class C",
+          "id": "c3"
+        }
+      ],
+      "selectItemsLimit": 1,
+      "mask": "Opcoes",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    },
+    {
+      "name": "matricula",
+      "step":"Matricula",
+      "type": "string",
+      "limiteOfChars": 60,
+      "mask": "Texto",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    },
+    {
+      "name": "foto",
+      "step":"Facial",
+      "type": "pictureLocation",
+      "mask": "Texto",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    }
+  ]
+}

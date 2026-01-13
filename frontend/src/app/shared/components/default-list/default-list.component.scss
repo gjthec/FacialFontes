@@ -1,0 +1,80 @@
+// Variáveis para breakpoints
+$breakpoint-small: 576px; // Exemplo: smartphones
+$breakpoint-medium: 768px; // Exemplo: tablets
+$breakpoint-large: 992px; // Exemplo: laptops/desktops
+$breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
+
+#fixedButtons {
+  position: fixed;
+  z-index: 99;
+  bottom: 50px;
+  right: 50px;
+}
+
+#fixedButtons > * {
+  margin-left: 10px;
+}
+
+// Estilos para dispositivos pequenos (exemplo: smartphones)
+@media screen and (max-width: $breakpoint-small) {
+  #fixedButtons {
+    bottom: 30px;
+    right: 30px;
+  }
+}
+
+// Estilos para dispositivos médios (exemplo: tablets)
+@media screen and (min-width: $breakpoint-medium) and (max-width: $breakpoint-large) {
+}
+
+// Estilos para dispositivos grandes (exemplo: laptops/desktops)
+@media screen and (min-width: $breakpoint-large) and (max-width: $breakpoint-extra-large) {
+}
+
+// Estilos para dispositivos extra grandes (exemplo: monitores grandes)
+@media screen and (min-width: $breakpoint-extra-large) {
+}
+
+.list-layout {
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+  gap: 10px
+}
+.card-layout {
+  // background-color: yellow;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px; /* Espaçamento entre os cards */
+  box-sizing: border-box;  
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+
+  th,
+  td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  /* Responsividade para tabelas */
+  @media screen and (max-width: 768px) {
+    .custom-table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+}

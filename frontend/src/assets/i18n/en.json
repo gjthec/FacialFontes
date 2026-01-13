@@ -1,0 +1,17 @@
+{
+ "home-page-component": {
+    "do-login": "Fazer login", 
+    "test-now": "Teste agora", 
+    "product-name": "Ortia", 
+    "short-product-description": "Manage the financial part of your company online", 
+    "long-product-description": "Get access to cloud storage with technology and perfect for managing your finances.", 
+    "workspace": "WorkSpace" 
+  },
+
+"Teste": {
+        "Teste": "Entrerprise",
+        "nome": "Name",
+        "tipoPessoa": "Type Person",
+        "foto": "foto"
+    }
+}
