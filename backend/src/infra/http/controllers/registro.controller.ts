@@ -37,7 +37,7 @@ export class RegistroController {
       await relatorioRepository.create({
         courseName: req.body.cursoId ?? "Curso não informado",
         classDate: new Date().toISOString().split("T")[0],
-        studentId: aluno?.id ?? null,
+        studentId: aluno?.id != null ? String(aluno.id) : undefined,
         studentName: aluno?.nome ?? "Aluno não informado",
         matricula: req.body.matricula,
         status: "Presente",
