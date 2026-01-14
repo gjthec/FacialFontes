@@ -5,6 +5,8 @@ import { Registro, IRegistro } from "../../../domain/entities/registro.model";
 import RegistroRepository from "../../../domain/repositories/registro.repository";
 import TenantConnection from "../../../domain/entities/tenantConnection.model";
 import { ValidationError } from "sequelize";
+import AlunoRepository from "../../../domain/repositories/aluno.repository";
+import RelatorioPresencaRepository from "../../../domain/repositories/relatorioPresenca.repository";
 
 export class RegistroController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -17,10 +19,32 @@ export class RegistroController {
         req.body.tenantConnection as TenantConnection
       );
 
-      const baseController: BaseController<IRegistro, Registro> =
-        new BaseController(registroRepository, "registro");
+      const registro = await registroRepository.create(req.body);
 
-      baseController.create(req, res, next);
+      const alunoRepository: AlunoRepository = new AlunoRepository(
+        req.body.tenantConnection as TenantConnection
+      );
+
+      const aluno = req.body.matricula
+        ? await alunoRepository.findOne({ matricula: req.body.matricula })
+        : null;
+
+      const relatorioRepository: RelatorioPresencaRepository =
+        new RelatorioPresencaRepository(
+          req.body.tenantConnection as TenantConnection
+        );
+
+      await relatorioRepository.create({
+        courseName: req.body.cursoId ?? "Curso não informado",
+        classDate: new Date().toISOString().split("T")[0],
+        studentId: aluno?.id ?? null,
+        studentName: aluno?.nome ?? "Aluno não informado",
+        matricula: req.body.matricula,
+        status: "Presente",
+        checkInMethod: "Registro",
+      });
+
+      res.status(201).json(registro);
     } catch (error) {
       if (error instanceof ValidationError) {
         const validationMessages = error.errors.map((err) => err.message);
