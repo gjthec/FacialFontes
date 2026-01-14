@@ -21,6 +21,7 @@ export default function defineRoute(app: Application) {
   router.delete("/:id", [checkUserAccess], controller.delete);
   router.post("/custom", [checkUserAccess], controller.customQuery);
   router.post("/:id/validate", [checkUserAccess], controller.validateIdentity);
+  router.post("/seed", [checkUserAccess], controller.seed);
 
   app.use("/api/relatorio-presenca", router);
 }

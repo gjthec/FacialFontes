@@ -10,6 +10,53 @@ import TenantConnection from "../../../domain/entities/tenantConnection.model";
 import { ValidationError } from "sequelize";
 
 export class RelatorioPresencaController {
+  private buildSeedData() {
+    const today = new Date();
+    const todayIso = today.toISOString().split("T")[0];
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const yesterdayIso = yesterday.toISOString().split("T")[0];
+
+    return [
+      {
+        courseName: "Engenharia de Software - Turma A",
+        classDate: todayIso,
+        studentId: "s1",
+        studentName: "Mariana Costa",
+        matricula: "2024001",
+        status: "Presente",
+        checkInMethod: "Facial",
+      },
+      {
+        courseName: "Engenharia de Software - Turma A",
+        classDate: todayIso,
+        studentId: "s2",
+        studentName: "João Henrique",
+        matricula: "2024002",
+        status: "Ausente",
+        checkInMethod: "Manual",
+      },
+      {
+        courseName: "Física 1 - Turma B",
+        classDate: yesterdayIso,
+        studentId: "s3",
+        studentName: "Carla Menezes",
+        matricula: "2024101",
+        status: "Presente",
+        checkInMethod: "QRCode",
+      },
+      {
+        courseName: "Cálculo - Turma C",
+        classDate: yesterdayIso,
+        studentId: "s4",
+        studentName: "Rafael Lima",
+        matricula: "2024204",
+        status: "Presente",
+        checkInMethod: "Facial",
+      },
+    ];
+  }
+
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       if (req.body.tenantConnection == undefined) {
@@ -159,6 +206,29 @@ export class RelatorioPresencaController {
         score: Number(score.toFixed(2)),
         checkedAtIso: new Date().toISOString(),
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async seed(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (req.body.tenantConnection == undefined) {
+        throw new NotFoundError("Não foi definido tenant para uso.");
+      }
+
+      const relatorioRepository: RelatorioPresencaRepository =
+        new RelatorioPresencaRepository(
+          req.body.tenantConnection as TenantConnection
+        );
+
+      const seedData = this.buildSeedData();
+      const created = [];
+      for (const payload of seedData) {
+        created.push(await relatorioRepository.create(payload));
+      }
+
+      return res.status(201).json(created);
     } catch (error) {
       next(error);
     }
