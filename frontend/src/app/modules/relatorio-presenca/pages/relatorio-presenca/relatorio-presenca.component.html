@@ -1,0 +1,113 @@
+<div class="relatorio-presenca">
+  <mat-card class="summary-card">
+    <div class="summary-header">
+      <div>
+        <h2>Relatório de Presença</h2>
+        <p>Resumo das aulas registradas com validação de identidade.</p>
+      </div>
+      <div class="summary-totals">
+        <div class="summary-pill">
+          <span class="label">Presentes</span>
+          <strong>{{ totalPresent }}</strong>
+        </div>
+        <div class="summary-pill">
+          <span class="label">Ausentes</span>
+          <strong>{{ totalAbsent }}</strong>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <div class="table-wrapper" *ngIf="!loading; else loadingState">
+    <table mat-table [dataSource]="records" class="mat-elevation-z2">
+      <ng-container matColumnDef="classDate">
+        <th mat-header-cell *matHeaderCellDef>Data</th>
+        <td mat-cell *matCellDef="let record">
+          {{ record.classDate | date: 'dd/MM/yyyy' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="courseName">
+        <th mat-header-cell *matHeaderCellDef>Curso</th>
+        <td mat-cell *matCellDef="let record">{{ record.courseName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="student">
+        <th mat-header-cell *matHeaderCellDef>Aluno</th>
+        <td mat-cell *matCellDef="let record">{{ record.studentName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="matricula">
+        <th mat-header-cell *matHeaderCellDef>Matrícula</th>
+        <td mat-cell *matCellDef="let record">{{ record.matricula }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let record">
+          <span
+            class="status"
+            [class.status-present]="record.status === 'Presente'"
+            [class.status-absent]="record.status === 'Ausente'"
+          >
+            {{ record.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="checkInMethod">
+        <th mat-header-cell *matHeaderCellDef>Check-in</th>
+        <td mat-cell *matCellDef="let record">{{ record.checkInMethod }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="identity">
+        <th mat-header-cell *matHeaderCellDef>Identidade</th>
+        <td mat-cell *matCellDef="let record">
+          <div class="identity-cell">
+            <ng-container *ngIf="identityChecks[record.id]; else validateAction">
+              <div class="identity-result">
+                <mat-icon
+                  class="icon"
+                  [class.icon-ok]="identityChecks[record.id]?.matched"
+                  [class.icon-fail]="!identityChecks[record.id]?.matched"
+                >
+                  {{ identityChecks[record.id]?.matched ? 'verified' : 'error' }}
+                </mat-icon>
+                <div>
+                  <div>
+                    {{ identityChecks[record.id]?.matched ? 'Verificado' : 'Falha' }}
+                  </div>
+                  <small>
+                    Score {{ identityChecks[record.id]?.score }} ·
+                    {{ identityChecks[record.id]?.checkedAtIso | date: 'HH:mm' }}
+                  </small>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #validateAction>
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="validateIdentity(record)"
+                [disabled]="identityLoading[record.id]"
+              >
+                <mat-icon>badge</mat-icon>
+                {{ identityLoading[record.id] ? 'Validando...' : 'Validar identidade' }}
+              </button>
+            </ng-template>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="loading-state">
+      <mat-spinner diameter="36"></mat-spinner>
+      <span>Carregando relatório...</span>
+    </div>
+  </ng-template>
+</div>

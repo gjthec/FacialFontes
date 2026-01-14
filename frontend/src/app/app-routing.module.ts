@@ -94,6 +94,20 @@ export const appRoutes: Route[] = [
           ),
       },
       {
+        path: 'admin-alunos',
+        loadChildren: () =>
+          import('./modules/admin-alunos/admin-alunos.module').then(
+            (m) => m.AdminAlunosModule
+          ),
+      },
+      {
+        path: 'relatorio-presenca',
+        loadChildren: () =>
+          import(
+            './modules/relatorio-presenca/relatorio-presenca.module'
+          ).then((m) => m.RelatorioPresencaModule),
+      },
+      {
         path: 'editProfile',
         pathMatch: 'full',
         component: EditProfileComponent,

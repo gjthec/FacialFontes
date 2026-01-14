@@ -1,0 +1,108 @@
+.relatorio-presenca {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summary-card {
+  padding: 16px 20px;
+}
+
+.summary-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    margin: 0 0 4px;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.7;
+  }
+}
+
+.summary-totals {
+  display: flex;
+  gap: 12px;
+}
+
+.summary-pill {
+  display: flex;
+  flex-direction: column;
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 10px 16px;
+  min-width: 120px;
+
+  .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.7;
+  }
+
+  strong {
+    font-size: 20px;
+  }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.status {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-present {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-absent {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.identity-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.identity-result {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  small {
+    opacity: 0.7;
+  }
+}
+
+.icon {
+  font-size: 20px;
+}
+
+.icon-ok {
+  color: #16a34a;
+}
+
+.icon-fail {
+  color: #dc2626;
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
