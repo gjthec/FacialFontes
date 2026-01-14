@@ -12,11 +12,6 @@
       "icon": "feather:box"
     },
     {
-      "name": "Registro de Presença",
-      "routeUrl": "/registro-presenca",
-      "icon": "feather:check-square"
-    },
-    {
       "name": "Registro",
       "routeUrl": "/registro",
       "icon": "feather:check-square"

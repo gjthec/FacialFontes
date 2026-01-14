@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AttendanceRecord,
-} from '../../mock/relatorio-presenca.mock';
+import { RelatorioPresenca } from '../../shared/relatorio-presenca.model';
 import {
   IdentityValidationResult,
-  RelatorioPresencaMockService,
-} from '../../services/relatorio-presenca-mock.service';
+  RelatorioPresencaService,
+} from '../../services/relatorio-presenca.service';
 
 @Component({
   selector: 'app-relatorio-presenca',
@@ -22,15 +20,15 @@ export class RelatorioPresencaComponent implements OnInit {
     'checkInMethod',
     'identity',
   ];
-  records: AttendanceRecord[] = [];
+  records: RelatorioPresenca[] = [];
   loading = true;
   identityChecks: Record<string, IdentityValidationResult | undefined> = {};
   identityLoading: Record<string, boolean | undefined> = {};
 
-  constructor(private relatorioService: RelatorioPresencaMockService) {}
+  constructor(private relatorioService: RelatorioPresencaService) {}
 
   ngOnInit(): void {
-    this.relatorioService.listReport().subscribe((records) => {
+    this.relatorioService.getAll().subscribe((records) => {
       this.records = records;
       this.loading = false;
     });
@@ -44,14 +42,14 @@ export class RelatorioPresencaComponent implements OnInit {
     return this.records.filter((record) => record.status === 'Ausente').length;
   }
 
-  validateIdentity(record: AttendanceRecord): void {
+  validateIdentity(record: RelatorioPresenca): void {
     if (this.identityLoading[record.id]) {
       return;
     }
 
     this.identityLoading[record.id] = true;
     this.relatorioService
-      .validateIdentityMock(record.studentId)
+      .validateIdentity(record.id)
       .subscribe((result) => {
         this.identityChecks[record.id] = result;
         this.identityLoading[record.id] = false;

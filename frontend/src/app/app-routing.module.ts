@@ -80,13 +80,6 @@ export const appRoutes: Route[] = [
           import('./modules/teste/teste.module').then((m) => m.TesteModule),
       },
       {
-        path: 'registro-presenca',
-        loadChildren: () =>
-          import('./modules/registro-presenca/registro-presenca.module').then(
-            (m) => m.RegistroPresencaModule
-          ),
-      },
-      {
         path: 'registro',
         loadChildren: () =>
           import('./modules/registro/registro.module').then(
