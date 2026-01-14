@@ -15,12 +15,6 @@ export class RegistroController {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
 
-      const registroRepository: RegistroRepository = new RegistroRepository(
-        req.body.tenantConnection as TenantConnection
-      );
-
-      const registro = await registroRepository.create(req.body);
-
       const alunoRepository: AlunoRepository = new AlunoRepository(
         req.body.tenantConnection as TenantConnection
       );
@@ -31,6 +25,16 @@ export class RegistroController {
         : req.body.matricula
         ? await alunoRepository.findOne({ matricula: req.body.matricula })
         : null;
+
+      if (aluno?.matricula) {
+        req.body.matricula = aluno.matricula;
+      }
+
+      const registroRepository: RegistroRepository = new RegistroRepository(
+        req.body.tenantConnection as TenantConnection
+      );
+
+      const registro = await registroRepository.create(req.body);
 
       const relatorioRepository: RelatorioPresencaRepository =
         new RelatorioPresencaRepository(
