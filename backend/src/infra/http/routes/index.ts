@@ -14,6 +14,8 @@ import consultaRoutes from "./consulta.route";
 import menuRoutes from "./menu.route";
 import testeRoutes from "./teste.route";
 import registroRoutes from "./registro.route";
+import alunoRoutes from "./aluno.route";
+import relatorioPresencaRoutes from "./relatorioPresenca.route";
 /**
  * Define as rotas da aplicação
  * @param app Instância do aplicação Express
@@ -36,4 +38,6 @@ export function setRoutes(app: Application) {
 
   testeRoutes(app);
   registroRoutes(app);
+  alunoRoutes(app);
+  relatorioPresencaRoutes(app);
 }

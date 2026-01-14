@@ -11,6 +11,8 @@ import TenantConnection from "../../../../domain/entities/tenantConnection.model
 import counterModel from "./counter.model";
 
 import testeModel from "./teste.model"; 
+import alunoModel from "./aluno.model";
+import relatorioPresencaModel from "./relatorioPresenca.model";
 
 export default async function setModels(tenantConnection: TenantConnection) { 
   const mongooseConnection = tenantConnection.connection; 
@@ -30,6 +32,8 @@ export default async function setModels(tenantConnection: TenantConnection) {
 
 
   const teste = testeModel(mongooseConnection); 
+  const aluno = alunoModel(mongooseConnection);
+  const relatorioPresenca = relatorioPresencaModel(mongooseConnection);
 
   const models = new Map<string, any>(); 
 
@@ -45,6 +49,8 @@ export default async function setModels(tenantConnection: TenantConnection) {
   models.set('VerificationEmail', verificationEmail); 
   models.set('Counter', counter); 
   models.set('Teste', teste); 
+  models.set('Aluno', aluno); 
+  models.set('RelatorioPresenca', relatorioPresenca); 
 
   return models; 
 } 

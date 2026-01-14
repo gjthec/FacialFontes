@@ -6,6 +6,10 @@ export default function defineModel(sequelize: Sequelize) {
       type: DataTypes.STRING,
       field: "curso_id",
     },
+    alunoId: {
+      type: DataTypes.INTEGER,
+      field: "aluno_id",
+    },
     matricula: {
       type: DataTypes.STRING(60),
       validate: {

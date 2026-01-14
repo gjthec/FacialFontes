@@ -26,4 +26,5 @@ export const environment = {
 
   testeJSONPath: '../../../../assets/dicionario/teste.json',
   registroJSONPath: '../../../../assets/dicionario/registro.json',
+  adminAlunosJSONPath: '../../../../assets/dicionario/admin-alunos.json',
 };

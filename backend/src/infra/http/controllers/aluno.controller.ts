@@ -1,57 +1,26 @@
 import { NextFunction, Request, Response } from "express";
 import { BaseController } from "./base.controller";
 import { NotFoundError } from "../../../errors/notFound.error";
-import { Registro, IRegistro } from "../../../domain/entities/registro.model";
-import RegistroRepository from "../../../domain/repositories/registro.repository";
+import { Aluno, IAluno } from "../../../domain/entities/aluno.model";
+import AlunoRepository from "../../../domain/repositories/aluno.repository";
 import TenantConnection from "../../../domain/entities/tenantConnection.model";
 import { ValidationError } from "sequelize";
-import AlunoRepository from "../../../domain/repositories/aluno.repository";
-import RelatorioPresencaRepository from "../../../domain/repositories/relatorioPresenca.repository";
 
-export class RegistroController {
+export class AlunoController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       if (req.body.tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
-
       const alunoRepository: AlunoRepository = new AlunoRepository(
         req.body.tenantConnection as TenantConnection
       );
-
-      const alunoId = req.body.alunoId;
-      const aluno = alunoId
-        ? await alunoRepository.findById(Number(alunoId))
-        : req.body.matricula
-        ? await alunoRepository.findOne({ matricula: req.body.matricula })
-        : null;
-
-      if (aluno?.matricula) {
-        req.body.matricula = aluno.matricula;
-      }
-
-      const registroRepository: RegistroRepository = new RegistroRepository(
-        req.body.tenantConnection as TenantConnection
+      const baseController: BaseController<IAluno, Aluno> = new BaseController(
+        alunoRepository,
+        "aluno"
       );
 
-      const registro = await registroRepository.create(req.body);
-
-      const relatorioRepository: RelatorioPresencaRepository =
-        new RelatorioPresencaRepository(
-          req.body.tenantConnection as TenantConnection
-        );
-
-      await relatorioRepository.create({
-        courseName: req.body.cursoId ?? "Curso não informado",
-        classDate: new Date().toISOString().split("T")[0],
-        studentId: aluno?.id != null ? String(aluno.id) : undefined,
-        studentName: aluno?.nome ?? "Aluno não informado",
-        matricula: aluno?.matricula ?? req.body.matricula,
-        status: "Presente",
-        checkInMethod: "Registro",
-      });
-
-      res.status(201).json(registro);
+      baseController.create(req, res, next);
     } catch (error) {
       if (error instanceof ValidationError) {
         const validationMessages = error.errors.map((err) => err.message);
@@ -69,13 +38,13 @@ export class RegistroController {
       if (req.body.tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
-
-      const registroRepository: RegistroRepository = new RegistroRepository(
+      const alunoRepository: AlunoRepository = new AlunoRepository(
         req.body.tenantConnection as TenantConnection
       );
-
-      const baseController: BaseController<IRegistro, Registro> =
-        new BaseController(registroRepository, "registro");
+      const baseController: BaseController<IAluno, Aluno> = new BaseController(
+        alunoRepository,
+        "aluno"
+      );
 
       baseController.findAll(req, res, next);
     } catch (error) {
@@ -88,13 +57,13 @@ export class RegistroController {
       if (req.body.tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
-
-      const registroRepository: RegistroRepository = new RegistroRepository(
+      const alunoRepository: AlunoRepository = new AlunoRepository(
         req.body.tenantConnection as TenantConnection
       );
-
-      const baseController: BaseController<IRegistro, Registro> =
-        new BaseController(registroRepository, "registro");
+      const baseController: BaseController<IAluno, Aluno> = new BaseController(
+        alunoRepository,
+        "aluno"
+      );
 
       baseController.findById(req, res, next);
     } catch (error) {
@@ -107,13 +76,13 @@ export class RegistroController {
       if (req.body.tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
-
-      const registroRepository: RegistroRepository = new RegistroRepository(
+      const alunoRepository: AlunoRepository = new AlunoRepository(
         req.body.tenantConnection as TenantConnection
       );
-
-      const baseController: BaseController<IRegistro, Registro> =
-        new BaseController(registroRepository, "registro");
+      const baseController: BaseController<IAluno, Aluno> = new BaseController(
+        alunoRepository,
+        "aluno"
+      );
 
       baseController.update(req, res, next);
     } catch (error) {
@@ -126,13 +95,13 @@ export class RegistroController {
       if (req.body.tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
-
-      const registroRepository: RegistroRepository = new RegistroRepository(
+      const alunoRepository: AlunoRepository = new AlunoRepository(
         req.body.tenantConnection as TenantConnection
       );
-
-      const baseController: BaseController<IRegistro, Registro> =
-        new BaseController(registroRepository, "registro");
+      const baseController: BaseController<IAluno, Aluno> = new BaseController(
+        alunoRepository,
+        "aluno"
+      );
 
       baseController.getCount(req, res, next);
     } catch (error) {
@@ -145,13 +114,13 @@ export class RegistroController {
       if (req.body.tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
-
-      const registroRepository: RegistroRepository = new RegistroRepository(
+      const alunoRepository: AlunoRepository = new AlunoRepository(
         req.body.tenantConnection as TenantConnection
       );
-
-      const baseController: BaseController<IRegistro, Registro> =
-        new BaseController(registroRepository, "registro");
+      const baseController: BaseController<IAluno, Aluno> = new BaseController(
+        alunoRepository,
+        "aluno"
+      );
 
       baseController.delete(req, res, next);
     } catch (error) {
@@ -164,13 +133,13 @@ export class RegistroController {
       if (req.body.tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
-
-      const registroRepository: RegistroRepository = new RegistroRepository(
+      const alunoRepository: AlunoRepository = new AlunoRepository(
         req.body.tenantConnection as TenantConnection
       );
-
-      const baseController: BaseController<IRegistro, Registro> =
-        new BaseController(registroRepository, "registro");
+      const baseController: BaseController<IAluno, Aluno> = new BaseController(
+        alunoRepository,
+        "aluno"
+      );
 
       baseController.findCustom(req, res, next);
     } catch (error) {

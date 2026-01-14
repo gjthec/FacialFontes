@@ -80,18 +80,25 @@ export const appRoutes: Route[] = [
           import('./modules/teste/teste.module').then((m) => m.TesteModule),
       },
       {
-        path: 'registro-presenca',
-        loadChildren: () =>
-          import('./modules/registro-presenca/registro-presenca.module').then(
-            (m) => m.RegistroPresencaModule
-          ),
-      },
-      {
         path: 'registro',
         loadChildren: () =>
           import('./modules/registro/registro.module').then(
             (m) => m.RegistroModule
           ),
+      },
+      {
+        path: 'admin-alunos',
+        loadChildren: () =>
+          import('./modules/admin-alunos/admin-alunos.module').then(
+            (m) => m.AdminAlunosModule
+          ),
+      },
+      {
+        path: 'relatorio-presenca',
+        loadChildren: () =>
+          import(
+            './modules/relatorio-presenca/relatorio-presenca.module'
+          ).then((m) => m.RelatorioPresencaModule),
       },
       {
         path: 'editProfile',

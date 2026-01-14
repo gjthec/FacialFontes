@@ -17,6 +17,8 @@ import roleMenuModel from "./roleMenu.model";
 
 import testeModel from "./teste.model";
 import registroModel from "./registro.model";
+import alunoModel from "./aluno.model";
+import relatorioPresencaModel from "./relatorioPresenca.model";
 export default async function setModels(tenantConnection: TenantConnection) {
   const sequelizeConnection = tenantConnection.connection;
 
@@ -124,6 +126,8 @@ export default async function setModels(tenantConnection: TenantConnection) {
 
   const teste = testeModel(sequelizeConnection);
   const registro = registroModel(sequelizeConnection);
+  const aluno = alunoModel(sequelizeConnection);
+  const relatorioPresenca = relatorioPresencaModel(sequelizeConnection);
 
   fieldFile.hasOne(teste, { foreignKey: "foto", as: "ALIASfotoALIASteste" });
   teste.belongsTo(fieldFile, { foreignKey: "foto", as: "ALIASfotoALIASteste" });
@@ -136,6 +140,9 @@ export default async function setModels(tenantConnection: TenantConnection) {
     foreignKey: "foto",
     as: "ALIASfotoALIASregistro",
   });
+
+  fieldFile.hasOne(aluno, { foreignKey: "foto", as: "ALIASfotoALIASaluno" });
+  aluno.belongsTo(fieldFile, { foreignKey: "foto", as: "ALIASfotoALIASaluno" });
 
   await sequelizeConnection
     .sync({ alter: true })
@@ -169,6 +176,8 @@ export default async function setModels(tenantConnection: TenantConnection) {
   //Modelos do projeto
   models.set("Teste", teste);
   models.set("Registro", registro);
+  models.set("Aluno", aluno);
+  models.set("RelatorioPresenca", relatorioPresenca);
 
   return models;
 }

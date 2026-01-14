@@ -1,0 +1,145 @@
+{
+  "config": {
+    "modified": "2026-01-10T00:00:00.000Z",
+    "description": "Administração de alunos: cadastro e manutenção.",
+    "name": "AdminAlunos",
+    "apiUrl": "api/alunos",
+    "route": "admin-alunos",
+    "title": {
+      "pt": "Administração de Alunos",
+      "en": "Student Administration"
+    },
+    "searchableFields": [
+      {
+        "name": "nome",
+        "type": "string"
+      },
+      {
+        "name": "matricula",
+        "type": "string"
+      }
+    ],
+    "localStorage": true,
+    "filter": true,
+    "addNew": true,
+    "edit": true,
+    "columnsQuantity": 2,
+    "delete": false,
+    "isFormStepper": false,
+    "isLinearFormStepper": false
+  },
+  "attributes": [
+    {
+      "name": "nome",
+      "type": "string",
+      "limiteOfChars": 80,
+      "mask": "Texto",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    },
+    {
+      "name": "matricula",
+      "type": "string",
+      "limiteOfChars": 20,
+      "mask": "Texto",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    },
+    {
+      "name": "cpf",
+      "type": "string",
+      "limiteOfChars": 14,
+      "mask": "CPF",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "limiteOfChars": 120,
+      "mask": "Texto",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    },
+    {
+      "name": "curso",
+      "type": "selector",
+      "optionList": [
+        {
+          "pt": "Engenharia de Software",
+          "en": "Software Engineering",
+          "id": "Engenharia de Software"
+        },
+        {
+          "pt": "Física",
+          "en": "Physics",
+          "id": "Física"
+        },
+        {
+          "pt": "Cálculo",
+          "en": "Calculus",
+          "id": "Cálculo"
+        }
+      ],
+      "selectItemsLimit": 1,
+      "mask": "Opcoes",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    },
+    {
+      "name": "status",
+      "type": "selector",
+      "optionList": [
+        {
+          "pt": "Ativo",
+          "en": "Active",
+          "id": "Ativo"
+        },
+        {
+          "pt": "Inativo",
+          "en": "Inactive",
+          "id": "Inativo"
+        }
+      ],
+      "selectItemsLimit": 1,
+      "mask": "Opcoes",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    },
+    {
+      "name": "foto",
+      "type": "pictureLocation",
+      "mask": "Texto",
+      "isRequired": false,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": false,
+      "visibleList": false,
+      "visibleForm": true
+    }
+  ]
+}

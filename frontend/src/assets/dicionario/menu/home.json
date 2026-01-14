@@ -12,14 +12,19 @@
       "icon": "feather:box"
     },
     {
-      "name": "Registro de Presença",
-      "routeUrl": "/registro-presenca",
-      "icon": "feather:check-square"
-    },
-    {
       "name": "Registro",
       "routeUrl": "/registro",
       "icon": "feather:check-square"
+    },
+    {
+      "name": "Administração de Alunos",
+      "routeUrl": "/admin-alunos",
+      "icon": "feather:users"
+    },
+    {
+      "name": "Relatório de Presença",
+      "routeUrl": "/relatorio-presenca",
+      "icon": "feather:clipboard"
     }
   ]
 }
