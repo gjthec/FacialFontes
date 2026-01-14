@@ -25,7 +25,10 @@ export class RegistroController {
         req.body.tenantConnection as TenantConnection
       );
 
-      const aluno = req.body.matricula
+      const alunoId = req.body.alunoId;
+      const aluno = alunoId
+        ? await alunoRepository.findById(Number(alunoId))
+        : req.body.matricula
         ? await alunoRepository.findOne({ matricula: req.body.matricula })
         : null;
 
@@ -39,7 +42,7 @@ export class RegistroController {
         classDate: new Date().toISOString().split("T")[0],
         studentId: aluno?.id != null ? String(aluno.id) : undefined,
         studentName: aluno?.nome ?? "Aluno não informado",
-        matricula: req.body.matricula,
+        matricula: aluno?.matricula ?? req.body.matricula,
         status: "Presente",
         checkInMethod: "Registro",
       });
