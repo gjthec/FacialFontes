@@ -41,7 +41,7 @@ export default function defineModel(sequelize: Sequelize) {
         field: "status",
       },
       foto: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         field: "foto",
       },
     },
