@@ -27,6 +27,33 @@ export class RegistroPresencaMockService {
     return of(MOCK_COURSES).pipe(delay(250));
   }
 
+  listCoursesByEnrollment(
+    code: string
+  ): Observable<{ courses: Course[]; student?: Student }> {
+    const normalized = (code ?? '').replace(/\D/g, '');
+    const matchedCourseIds: string[] = [];
+    let matchedStudent: Student | undefined;
+
+    Object.entries(MOCK_STUDENTS_BY_COURSE).forEach(([courseId, students]) => {
+      const found = students.find(
+        (student) =>
+          student.cpf === normalized ||
+          student.codSist?.toLowerCase() === code.toLowerCase()
+      );
+
+      if (found) {
+        matchedCourseIds.push(courseId);
+        matchedStudent = matchedStudent ?? found;
+      }
+    });
+
+    const courses = MOCK_COURSES.filter((course) =>
+      matchedCourseIds.includes(course.id)
+    );
+
+    return of({ courses, student: matchedStudent }).pipe(delay(350));
+  }
+
   validateEnrollment(
     courseId: string,
     code: string
