@@ -16,4 +16,13 @@ export class RegistroService extends BaseResourceService<Registro> {
 
     super(url, injector, Registro.fromJson);
   }
+
+  getActiveCoursesByMatricula(
+    idMatriculaUsuario: string | number
+  ): Observable<{ idMatriculaUsuario: string | number; cursos: any[] }> {
+    const url = `${environment.backendUrl}/api/matriculas/${idMatriculaUsuario}/cursos-ativos`;
+    return this.http.get<{ idMatriculaUsuario: string | number; cursos: any[] }>(
+      url
+    );
+  }
 }
