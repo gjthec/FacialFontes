@@ -22,10 +22,7 @@ export default class MatriculaCursoService {
     return this.tenantConnection.connection;
   }
 
-  async getActiveCoursesByMatricula(idMatriculaUsuario: number): Promise<ActiveCourse[]> {
-    const sequelize = this.getSequelizeConnection();
-
-    console.info(`[MatriculaCursoService] Validando matrícula: ${idMatriculaUsuario}`);
+  private async matriculaExists(idMatriculaUsuario: number, sequelize: Sequelize): Promise<boolean> {
     const matricula = await sequelize.query<{ id_matricula_usuario: number }>(
       "SELECT id_matricula_usuario FROM matriculas WHERE id_matricula_usuario = :id LIMIT 1",
       {
@@ -34,12 +31,13 @@ export default class MatriculaCursoService {
       }
     );
 
-    if (matricula.length === 0) {
-      console.warn(`[MatriculaCursoService] Matrícula não encontrada: ${idMatriculaUsuario}`);
-      throw new NotFoundError("Matrícula não encontrada.");
-    }
+    return matricula.length > 0;
+  }
 
-    console.info(`[MatriculaCursoService] Buscando contratos ativos da matrícula: ${idMatriculaUsuario}`);
+  private async findActiveContratoIds(
+    idMatriculaUsuario: number,
+    sequelize: Sequelize
+  ): Promise<number[]> {
     const contratosAtivos = await sequelize.query<{ id_contrato: number }>(
       "SELECT id_contrato FROM contratos WHERE id_matricula_usuario = :id AND status = 'ATIVO' AND (data_fim IS NULL OR data_fim >= CURRENT_DATE)",
       {
@@ -48,22 +46,46 @@ export default class MatriculaCursoService {
       }
     );
 
-    if (contratosAtivos.length === 0) {
-      console.info(`[MatriculaCursoService] Nenhum contrato ativo para matrícula: ${idMatriculaUsuario}`);
+    return contratosAtivos.map((contrato) => contrato.id_contrato);
+  }
+
+  private async findCursosByContratos(
+    contratoIds: number[],
+    sequelize: Sequelize
+  ): Promise<ActiveCourse[]> {
+    if (contratoIds.length === 0) {
       return [];
     }
 
-    const contratoIds = contratosAtivos.map((contrato) => contrato.id_contrato);
-
-    console.info(`[MatriculaCursoService] Buscando cursos dos contratos ativos: ${contratoIds.join(", ")}`);
-    const cursos = await sequelize.query<ActiveCourse>(
+    return sequelize.query<ActiveCourse>(
       "SELECT c.id_curso AS idCurso, c.nome FROM contrato_cursos cc JOIN cursos c ON c.id_curso = cc.id_curso WHERE cc.id_contrato IN (:contratoIds)",
       {
         replacements: { contratoIds },
         type: QueryTypes.SELECT,
       }
     );
+  }
 
-    return cursos;
+  async getActiveCoursesByMatricula(idMatriculaUsuario: number): Promise<ActiveCourse[]> {
+    const sequelize = this.getSequelizeConnection();
+
+    console.info(`[MatriculaCursoService] Validando matrícula: ${idMatriculaUsuario}`);
+    const matriculaExiste = await this.matriculaExists(idMatriculaUsuario, sequelize);
+
+    if (!matriculaExiste) {
+      console.warn(`[MatriculaCursoService] Matrícula não encontrada: ${idMatriculaUsuario}`);
+      throw new NotFoundError("Matrícula não encontrada.");
+    }
+
+    console.info(`[MatriculaCursoService] Buscando contratos ativos da matrícula: ${idMatriculaUsuario}`);
+    const contratoIds = await this.findActiveContratoIds(idMatriculaUsuario, sequelize);
+
+    if (contratoIds.length === 0) {
+      console.info(`[MatriculaCursoService] Nenhum contrato ativo para matrícula: ${idMatriculaUsuario}`);
+      return [];
+    }
+
+    console.info(`[MatriculaCursoService] Buscando cursos dos contratos ativos: ${contratoIds.join(", ")}`);
+    return this.findCursosByContratos(contratoIds, sequelize);
   }
 }

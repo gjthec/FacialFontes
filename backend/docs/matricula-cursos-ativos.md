@@ -2,6 +2,8 @@
 
 ## SQL DDL (sem chaves estrangeiras)
 
+> Observação: os relacionamentos são feitos apenas por IDs e validados por lógica/queries, sem uso de FK.
+
 ```sql
 CREATE TABLE matriculas (
   id_matricula_usuario BIGINT PRIMARY KEY,
@@ -124,7 +126,7 @@ Implementada no serviço `MatriculaCursoService`.
 1. Receber `idMatriculaUsuario` pela rota.
 2. Validar parâmetros (inteiro positivo).
 3. Verificar existência da matrícula.
-4. Consultar contratos ativos (`status = ATIVO` e `data_fim >= hoje`, quando existir).
+4. Consultar contratos ativos (`status = ATIVO` e `data_fim >= hoje`, quando existir). Contratos inativos são ignorados.
 5. Se não houver contratos ativos, retornar lista vazia de cursos.
 6. Consultar cursos vinculados aos contratos ativos.
 7. Retornar `idMatriculaUsuario` e lista de cursos.
