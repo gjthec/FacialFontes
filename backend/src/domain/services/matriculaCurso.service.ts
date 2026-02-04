@@ -22,20 +22,39 @@ export default class MatriculaCursoService {
     return this.tenantConnection.connection;
   }
 
-  private async matriculaExists(idMatriculaUsuario: number, sequelize: Sequelize): Promise<boolean> {
-    const matricula = await sequelize.query<{ id_matricula_usuario: number }>(
-      "SELECT id_matricula_usuario FROM matriculas WHERE id_matricula_usuario = :id LIMIT 1",
+  private async matriculaExists(
+    idMatriculaUsuario: number | string,
+    sequelize: Sequelize
+  ): Promise<boolean> {
+    try {
+      const matricula = await sequelize.query<{ id_matricula_usuario: number }>(
+        "SELECT id_matricula_usuario FROM matriculas WHERE id_matricula_usuario = :id LIMIT 1",
+        {
+          replacements: { id: idMatriculaUsuario },
+          type: QueryTypes.SELECT,
+        }
+      );
+
+      return matricula.length > 0;
+    } catch (error: any) {
+      if (error?.name !== "SequelizeDatabaseError" || error?.original?.code !== "42P01") {
+        throw error;
+      }
+    }
+
+    const matriculaFallback = await sequelize.query<{ matricula: string }>(
+      "SELECT matricula FROM alunos WHERE matricula = :id LIMIT 1",
       {
         replacements: { id: idMatriculaUsuario },
         type: QueryTypes.SELECT,
       }
     );
 
-    return matricula.length > 0;
+    return matriculaFallback.length > 0;
   }
 
   private async findActiveContratoIds(
-    idMatriculaUsuario: number,
+    idMatriculaUsuario: number | string,
     sequelize: Sequelize
   ): Promise<number[]> {
     const contratosAtivos = await sequelize.query<{ id_contrato: number }>(
@@ -66,7 +85,9 @@ export default class MatriculaCursoService {
     );
   }
 
-  async getActiveCoursesByMatricula(idMatriculaUsuario: number): Promise<ActiveCourse[]> {
+  async getActiveCoursesByMatricula(
+    idMatriculaUsuario: number | string
+  ): Promise<ActiveCourse[]> {
     const sequelize = this.getSequelizeConnection();
 
     console.info(`[MatriculaCursoService] Validando matrícula: ${idMatriculaUsuario}`);

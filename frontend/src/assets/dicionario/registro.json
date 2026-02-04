@@ -41,35 +41,9 @@
       "visibleForm": true
     },
     {
-      "name": "alunoId",
+      "name": "matricula",
       "step": "Matricula",
-      "type": "foreignKey",
-      "className": "Aluno",
-      "apiUrl": "api/alunos",
-      "fieldDisplayedInLabel": "matricula",
-      "properties": [
-        {
-          "name": "matricula",
-          "type": "string",
-          "fieldDisplayedInLabel": "matricula",
-          "visibleCard": true,
-          "visibleGrid": true,
-          "visibleFilter": true,
-          "visibleList": true,
-          "visibleForm": true
-        },
-        {
-          "name": "nome",
-          "type": "string",
-          "fieldDisplayedInLabel": "nome",
-          "visibleCard": true,
-          "visibleGrid": true,
-          "visibleFilter": true,
-          "visibleList": true,
-          "visibleForm": true
-        }
-      ],
-      "selectItemsLimit": 1,
+      "type": "string",
       "isRequired": true,
       "visibleCard": true,
       "visibleGrid": true,

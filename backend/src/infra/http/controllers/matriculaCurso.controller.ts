@@ -10,7 +10,7 @@ export class MatriculaCursoController {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
 
-      const idMatriculaUsuario = Number(req.params.idMatriculaUsuario);
+      const idMatriculaUsuario = req.params.idMatriculaUsuario;
       const matriculaCursoService = new MatriculaCursoService(
         req.body.tenantConnection as TenantConnection
       );

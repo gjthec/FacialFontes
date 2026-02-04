@@ -54,6 +54,8 @@ WHERE id_matricula_usuario = :id
 LIMIT 1;
 ```
 
+> Caso a tabela `matriculas` não exista no schema atual, usar `alunos.matricula` como fonte de validação da matrícula.
+
 ### 2) Buscar contratos ativos da matrícula
 
 ```sql

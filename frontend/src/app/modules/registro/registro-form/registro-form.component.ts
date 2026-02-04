@@ -18,6 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, interval, of, takeUntil } from 'rxjs';
 import {
   catchError,
+  debounceTime,
   distinctUntilChanged,
   filter,
   map,
@@ -123,13 +124,14 @@ export class RegistroFormComponent
   }
 
   private registerMatriculaWatcher(): void {
-    this.waitForControl('alunoId')
+    this.waitForControl('matricula')
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((alunoControl) => {
-        alunoControl.valueChanges
+      .subscribe((matriculaControl) => {
+        matriculaControl.valueChanges
           .pipe(
-            startWith(alunoControl.value),
+            startWith(matriculaControl.value),
             map((value) => this.resolveMatriculaId(value)),
+            debounceTime(400),
             distinctUntilChanged(),
             switchMap((matriculaId) =>
               this.loadCursosByMatricula(matriculaId)
@@ -150,25 +152,30 @@ export class RegistroFormComponent
     );
   }
 
-  private resolveMatriculaId(alunoValue: any): string | number | null {
-    if (!alunoValue) {
+  private resolveMatriculaId(matriculaValue: any): string | number | null {
+    if (!matriculaValue) {
       return null;
     }
 
-    if (typeof alunoValue === 'string' || typeof alunoValue === 'number') {
-      return alunoValue;
+    if (typeof matriculaValue === 'string') {
+      const trimmed = matriculaValue.trim();
+      return trimmed.length > 0 ? trimmed : null;
     }
 
-    if (alunoValue.idMatriculaUsuario) {
-      return alunoValue.idMatriculaUsuario;
+    if (typeof matriculaValue === 'number') {
+      return matriculaValue;
     }
 
-    if (alunoValue.matricula) {
-      return alunoValue.matricula;
+    if (matriculaValue.idMatriculaUsuario) {
+      return matriculaValue.idMatriculaUsuario;
     }
 
-    if (alunoValue.id) {
-      return alunoValue.id;
+    if (matriculaValue.matricula) {
+      return matriculaValue.matricula;
+    }
+
+    if (matriculaValue.id) {
+      return matriculaValue.id;
     }
 
     return null;
