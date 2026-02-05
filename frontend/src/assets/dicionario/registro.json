@@ -22,7 +22,7 @@
     "columnsQuantity": 2,
     "delete": false,
     "isFormStepper": true,
-    "steps": ["Curso","Matricula","Facial"],
+    "steps": ["Matricula","Curso","Facial"],
     "isLinearFormStepper": false
   },
   "attributes": [
@@ -30,23 +30,7 @@
       "name": "cursoId",
       "step": "Curso",
       "type": "selector",
-      "optionList": [
-        {
-          "pt": "Engenharia de Software - Turma A",
-          "en": "Software Engineering - Class A",
-          "id": "c1"
-        },
-        {
-          "pt": "Física 1 - Turma B",
-          "en": "Physics 1 - Class B",
-          "id": "c2"
-        },
-        {
-          "pt": "Cálculo - Turma C",
-          "en": "Calculus - Class C",
-          "id": "c3"
-        }
-      ],
+      "optionList": [],
       "selectItemsLimit": 1,
       "mask": "Opcoes",
       "isRequired": true,
@@ -57,35 +41,9 @@
       "visibleForm": true
     },
     {
-      "name": "alunoId",
+      "name": "matricula",
       "step": "Matricula",
-      "type": "foreignKey",
-      "className": "Aluno",
-      "apiUrl": "api/alunos",
-      "fieldDisplayedInLabel": "matricula",
-      "properties": [
-        {
-          "name": "matricula",
-          "type": "string",
-          "fieldDisplayedInLabel": "matricula",
-          "visibleCard": true,
-          "visibleGrid": true,
-          "visibleFilter": true,
-          "visibleList": true,
-          "visibleForm": true
-        },
-        {
-          "name": "nome",
-          "type": "string",
-          "fieldDisplayedInLabel": "nome",
-          "visibleCard": true,
-          "visibleGrid": true,
-          "visibleFilter": true,
-          "visibleList": true,
-          "visibleForm": true
-        }
-      ],
-      "selectItemsLimit": 1,
+      "type": "string",
       "isRequired": true,
       "visibleCard": true,
       "visibleGrid": true,
