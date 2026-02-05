@@ -6,6 +6,8 @@ export class Registro extends BaseResourceModel {
   id?: any;
   nome?: string;
   tipoPessoa?: string;
+  matricula?: string;
+  cursoId?: string;
   foto?: FieldFile;
 
   static fromJson(jsonData: any): Registro {

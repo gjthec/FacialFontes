@@ -13,7 +13,10 @@ import { BaseResourceFormComponent } from 'app/shared/components/form/form.compo
 import { FormGeneratorService } from 'app/shared/services/form-generator.service';
 import { GeneratedFormFactoryService } from 'app/shared/services/generated-form-factory.service';
 import { environment } from 'environments/environment';
-import { Subject, takeUntil } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AbstractControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-details-registro',
@@ -36,7 +39,9 @@ export class RegistroFormComponent
     protected registroService: RegistroService, //Linha alterável com base na classe
     protected injector: Injector,
     private generatedFormFactoryService: GeneratedFormFactoryService,
-    private formGeneratorService: FormGeneratorService
+    private formGeneratorService: FormGeneratorService,
+    private http: HttpClient,
+    private matSnackBar: MatSnackBar
   ) {
     super(injector, new Registro(), registroService, Registro.fromJson); //Linha alterável com base na classe
     this.buildResourceForm();
@@ -62,6 +67,8 @@ export class RegistroFormComponent
           },
           this.currentAction
         );
+
+        this.setupMatriculaValidation();
       });
   }
 
@@ -73,6 +80,67 @@ export class RegistroFormComponent
     this.resourceForm = this.formBuilder.group({
       id: [null],
     });
+  }
+
+  private setupMatriculaValidation(): void {
+    const matriculaControl = this.resourceForm.get('matricula');
+
+    if (!matriculaControl) {
+      return;
+    }
+
+    matriculaControl.valueChanges
+      .pipe(
+        map((value) => (typeof value === 'string' ? value.trim() : '')),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((matricula) => {
+          if (!matricula) {
+            this.clearMatriculaError(matriculaControl);
+            return of({ exists: false, empty: true });
+          }
+
+          return this.http
+            .get(
+              `${environment.backendUrl}/api/alunos/validate/matricula/${encodeURIComponent(
+                matricula
+              )}`
+            )
+            .pipe(
+              map(() => ({ exists: true, empty: false })),
+              catchError(() => of({ exists: false, empty: false }))
+            );
+        }),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe((result) => {
+        if (result.empty) {
+          return;
+        }
+
+        if (!result.exists) {
+          matriculaControl.setErrors({
+            ...(matriculaControl.errors || {}),
+            notFound: true,
+          });
+          this.matSnackBar.open('Matrícula não encontrada.', 'Fechar', {
+            duration: 3000,
+          });
+          return;
+        }
+
+        this.clearMatriculaError(matriculaControl);
+      });
+  }
+
+  private clearMatriculaError(matriculaControl: AbstractControl) {
+    const errors = { ...(matriculaControl.errors || {}) };
+    if (!errors.notFound) {
+      return;
+    }
+    delete errors.notFound;
+    const hasRemainingErrors = Object.keys(errors).length > 0;
+    matriculaControl.setErrors(hasRemainingErrors ? errors : null);
   }
 
   //  ngOnDestroy(): void {

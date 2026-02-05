@@ -22,10 +22,23 @@
     "columnsQuantity": 2,
     "delete": false,
     "isFormStepper": true,
-    "steps": ["Curso","Matricula","Facial"],
+    "steps": ["Matricula", "Curso", "Facial"],
     "isLinearFormStepper": false
   },
   "attributes": [
+    {
+      "name": "matricula",
+      "step": "Matricula",
+      "type": "string",
+      "limiteOfChars": 20,
+      "mask": "Texto",
+      "isRequired": true,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": true,
+      "visibleList": true,
+      "visibleForm": true
+    },
     {
       "name": "cursoId",
       "step": "Curso",
@@ -49,43 +62,6 @@
       ],
       "selectItemsLimit": 1,
       "mask": "Opcoes",
-      "isRequired": true,
-      "visibleCard": true,
-      "visibleGrid": true,
-      "visibleFilter": true,
-      "visibleList": true,
-      "visibleForm": true
-    },
-    {
-      "name": "alunoId",
-      "step": "Matricula",
-      "type": "foreignKey",
-      "className": "Aluno",
-      "apiUrl": "api/alunos",
-      "fieldDisplayedInLabel": "matricula",
-      "properties": [
-        {
-          "name": "matricula",
-          "type": "string",
-          "fieldDisplayedInLabel": "matricula",
-          "visibleCard": true,
-          "visibleGrid": true,
-          "visibleFilter": true,
-          "visibleList": true,
-          "visibleForm": true
-        },
-        {
-          "name": "nome",
-          "type": "string",
-          "fieldDisplayedInLabel": "nome",
-          "visibleCard": true,
-          "visibleGrid": true,
-          "visibleFilter": true,
-          "visibleList": true,
-          "visibleForm": true
-        }
-      ],
-      "selectItemsLimit": 1,
       "isRequired": true,
       "visibleCard": true,
       "visibleGrid": true,

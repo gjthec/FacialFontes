@@ -1,5 +1,6 @@
 import { Application, Router } from "express";
 import { checkUserAccess } from "../middlewares/checkUserAccess.middleware";
+import { getSecurityTenant } from "../middlewares/tenant.middleware";
 import validateHeaders from "../validators/index.validator";
 import { RegistroController } from "../controllers/registro.controller";
 import { createNewRegistroValidator } from "../validators/registro.validator";
@@ -11,7 +12,7 @@ export default function defineRoute(app: Application) {
   // Create a new Registro
   router.post(
     "/",
-    [checkUserAccess, ...createNewRegistroValidator, validateHeaders],
+    [getSecurityTenant, ...createNewRegistroValidator, validateHeaders],
     controller.create
   );
 
