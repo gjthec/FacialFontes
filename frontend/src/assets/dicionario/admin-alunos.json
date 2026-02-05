@@ -78,31 +78,35 @@
       "visibleForm": true
     },
     {
-      "name": "curso",
-      "type": "selector",
-      "optionList": [
+      "name": "contratos",
+      "type": "subform",
+      "apiUrl": "",
+      "className": "Contrato",
+      "fieldDisplayedInLabel": "numero",
+      "properties": [
         {
-          "pt": "Engenharia de Software",
-          "en": "Software Engineering",
-          "id": "Engenharia de Software"
+          "name": "numero",
+          "type": "string",
+          "visibleCard": true,
+          "visibleGrid": true,
+          "visibleFilter": false,
+          "visibleList": true,
+          "visibleForm": true
         },
         {
-          "pt": "Física",
-          "en": "Physics",
-          "id": "Física"
-        },
-        {
-          "pt": "Cálculo",
-          "en": "Calculus",
-          "id": "Cálculo"
+          "name": "cursos",
+          "type": "subform",
+          "visibleCard": true,
+          "visibleGrid": true,
+          "visibleFilter": false,
+          "visibleList": true,
+          "visibleForm": true
         }
       ],
-      "selectItemsLimit": 1,
-      "mask": "Opcoes",
-      "isRequired": true,
+      "isRequired": false,
       "visibleCard": true,
       "visibleGrid": true,
-      "visibleFilter": true,
+      "visibleFilter": false,
       "visibleList": true,
       "visibleForm": true
     },

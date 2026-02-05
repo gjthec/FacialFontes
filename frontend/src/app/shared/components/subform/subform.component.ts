@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { IPageStructure } from 'app/shared/models/pageStructure';
 import { environment } from 'environments/environment';
-import { forkJoin, Observable, Subject, take, takeUntil } from 'rxjs';
+import { forkJoin, Observable, Subject, of, take, takeUntil } from 'rxjs';
 import { IDefaultListComponentDialogConfig, DefaultListComponent } from '../default-list/default-list.component';
 import { ISearchableField } from '../search-input-field/search-input-field.component';
 import { FormGeneratorService } from 'app/shared/services/form-generator.service';
@@ -453,9 +453,15 @@ export class SubformComponent implements AfterViewInit {
 
   private async displayDataOnEdit() {
     this.inputValue.valueChanges.pipe(take(1), takeUntil(this.ngUnsubscribe)).subscribe(async (data) => {
+      const items = Array.isArray(data) ? data : [];
+      const hasValidIds = items.length > 0 && items.every((item) => item && typeof item === 'object' && 'id' in item);
+      const shouldLoadFromApi = this.isEnabledToGetDataFromAPI && Boolean(this.apiUrl) && hasValidIds;
       const apiUrl = environment.backendUrl + '/' + this.apiUrl;
-      this.getItensFromApiOnEdit(data, apiUrl).subscribe((items) => {
-        this.itemsDisplayed = items;
+
+      const itemsSource = shouldLoadFromApi ? this.getItensFromApiOnEdit(items, apiUrl) : of(items);
+
+      itemsSource.subscribe((itemsFromSource) => {
+        this.itemsDisplayed = itemsFromSource;
         let nameClass = this.dataToCreatePage.attributes[this.index].className;
         nameClass = nameClass.charAt(0).toLowerCase() + nameClass.slice(1);
     
@@ -464,7 +470,7 @@ export class SubformComponent implements AfterViewInit {
         this.formGeneratorService.getJSONFromDicionario(jsonPath).pipe(takeUntil(this.ngUnsubscribe)).subscribe((JSONDictionary: IPageStructure) => {
           this.subClassJSONDictionary = JSONDictionary;
           const { itemDisplayedOnSubFormType, objectDisplayedValueOnSubForm, attributesOnSubForm } = this.getAttributesToSubForm(JSONDictionary);
-          this.createItemsOnList(this.itemsDisplayed, itemDisplayedOnSubFormType, objectDisplayedValueOnSubForm, attributesOnSubForm);
+          this.createItemsOnList(itemsFromSource, itemDisplayedOnSubFormType, objectDisplayedValueOnSubForm, attributesOnSubForm);
           this.eventSelectedValues.emit(data);
         });
       });
