@@ -6,6 +6,23 @@ export default function defineModel(mongooseConnection: Connection) {
     return mongooseConnection.models.aluno;
   }
 
+  const cursoContratoSchema = new mongoose.Schema(
+    {
+      id: { type: String },
+      nome: { type: String },
+    },
+    { _id: false }
+  );
+
+  const contratoSchema = new mongoose.Schema(
+    {
+      id: { type: String },
+      numero: { type: String },
+      cursos: { type: [cursoContratoSchema], default: [] },
+    },
+    { _id: false }
+  );
+
   var schema = new mongoose.Schema(
     {
       _id: {
@@ -34,6 +51,10 @@ export default function defineModel(mongooseConnection: Connection) {
       },
       curso: {
         type: String,
+      },
+      contratos: {
+        type: [contratoSchema],
+        default: [],
       },
       status: {
         type: String,

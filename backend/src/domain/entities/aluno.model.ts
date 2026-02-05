@@ -7,9 +7,21 @@ export interface IAluno extends BaseResourceModel {
   cpf?: string;
   email?: string;
   curso?: string;
+  contratos?: IContrato[];
   status?: string;
   foto?: FieldFile;
   createdAt?: string;
+}
+
+export interface ICursoContrato {
+  id?: string;
+  nome?: string;
+}
+
+export interface IContrato {
+  id?: string;
+  numero?: string;
+  cursos?: ICursoContrato[];
 }
 
 export class Aluno extends BaseResourceModel implements IAluno {
@@ -18,6 +30,7 @@ export class Aluno extends BaseResourceModel implements IAluno {
   cpf?: string;
   email?: string;
   curso?: string;
+  contratos?: IContrato[];
   status?: string;
   foto?: FieldFile;
   createdAt?: string;
@@ -30,6 +43,7 @@ export class Aluno extends BaseResourceModel implements IAluno {
     this.cpf = input.cpf;
     this.email = input.email;
     this.curso = input.curso;
+    this.contratos = input.contratos;
     this.status = input.status;
     this.foto = input.foto;
     this.createdAt = input.createdAt;
