@@ -17,22 +17,22 @@ export default function defineRoute(app: Application) {
   );
 
   // Retrieve all registros
-  router.get("/", [checkUserAccess, validateHeaders], controller.findAll);
+  router.get("/", [getSecurityTenant, validateHeaders], controller.findAll);
 
   // Retrieve count registros
-  router.get("/count", [checkUserAccess], controller.getCount);
+  router.get("/count", [getSecurityTenant], controller.getCount);
 
   // Retrieve a single Registro with id
-  router.get("/:id", [checkUserAccess], controller.findById);
+  router.get("/:id", [getSecurityTenant], controller.findById);
 
   // Update a Registro with id
-  router.put("/:id", [checkUserAccess], controller.update);
+  router.put("/:id", [getSecurityTenant], controller.update);
 
   // Delete a Registro with id
-  router.delete("/:id", [checkUserAccess], controller.delete);
+  router.delete("/:id", [getSecurityTenant], controller.delete);
 
   // Custom get Registro
-  router.post("/custom", [checkUserAccess], controller.customQuery);
+  router.post("/custom", [getSecurityTenant], controller.customQuery);
 
   app.use("/api/registro", router);
 }
