@@ -1,5 +1,6 @@
 import { Application, Router } from "express";
 import { checkUserAccess } from "../middlewares/checkUserAccess.middleware";
+import { getSecurityTenant } from "../middlewares/tenant.middleware";
 import validateHeaders from "../validators/index.validator";
 import { AlunoController } from "../controllers/aluno.controller";
 import { createNewAlunoValidator } from "../validators/aluno.validator";
@@ -12,6 +13,12 @@ export default function defineRoute(app: Application) {
     "/",
     [checkUserAccess, ...createNewAlunoValidator, validateHeaders],
     controller.create
+  );
+
+  router.get(
+    "/validate/matricula/:matricula",
+    [getSecurityTenant],
+    controller.findByMatriculaPublic
   );
 
   router.get("/", [checkUserAccess, validateHeaders], controller.findAll);

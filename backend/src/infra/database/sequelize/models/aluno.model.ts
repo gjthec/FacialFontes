@@ -36,6 +36,11 @@ export default function defineModel(sequelize: Sequelize) {
         type: DataTypes.STRING(120),
         field: "curso",
       },
+      contratos: {
+        type: DataTypes.JSON,
+        field: "contratos",
+        defaultValue: [],
+      },
       status: {
         type: DataTypes.STRING(20),
         field: "status",

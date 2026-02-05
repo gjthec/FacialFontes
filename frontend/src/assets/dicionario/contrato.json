@@ -1,0 +1,66 @@
+{
+  "config": {
+    "modified": "2026-01-10T00:00:00.000Z",
+    "description": "Cadastro de contratos do aluno.",
+    "name": "Contrato",
+    "apiUrl": "",
+    "route": "contrato",
+    "title": {
+      "pt": "Contrato",
+      "en": "Contract"
+    },
+    "searchableFields": [
+      {
+        "name": "numero",
+        "type": "string"
+      }
+    ],
+    "localStorage": true,
+    "filter": false,
+    "addNew": true,
+    "edit": true,
+    "columnsQuantity": 2,
+    "delete": true,
+    "isFormStepper": false,
+    "isLinearFormStepper": false
+  },
+  "attributes": [
+    {
+      "name": "numero",
+      "type": "string",
+      "limiteOfChars": 30,
+      "mask": "Texto",
+      "isRequired": true,
+      "fieldDisplayedInLabel": "numero",
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": false,
+      "visibleList": true,
+      "visibleForm": true
+    },
+    {
+      "name": "cursos",
+      "type": "subform",
+      "apiUrl": "",
+      "className": "Curso",
+      "fieldDisplayedInLabel": "nome",
+      "properties": [
+        {
+          "name": "nome",
+          "type": "string",
+          "visibleCard": true,
+          "visibleGrid": true,
+          "visibleFilter": false,
+          "visibleList": true,
+          "visibleForm": true
+        }
+      ],
+      "isRequired": false,
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": false,
+      "visibleList": true,
+      "visibleForm": true
+    }
+  ]
+}

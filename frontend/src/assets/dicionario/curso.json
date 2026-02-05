@@ -1,0 +1,42 @@
+{
+  "config": {
+    "modified": "2026-01-10T00:00:00.000Z",
+    "description": "Cadastro de cursos por contrato.",
+    "name": "Curso",
+    "apiUrl": "",
+    "route": "curso",
+    "title": {
+      "pt": "Curso",
+      "en": "Course"
+    },
+    "searchableFields": [
+      {
+        "name": "nome",
+        "type": "string"
+      }
+    ],
+    "localStorage": true,
+    "filter": false,
+    "addNew": true,
+    "edit": true,
+    "columnsQuantity": 1,
+    "delete": true,
+    "isFormStepper": false,
+    "isLinearFormStepper": false
+  },
+  "attributes": [
+    {
+      "name": "nome",
+      "type": "string",
+      "limiteOfChars": 120,
+      "mask": "Texto",
+      "isRequired": true,
+      "fieldDisplayedInLabel": "nome",
+      "visibleCard": true,
+      "visibleGrid": true,
+      "visibleFilter": false,
+      "visibleList": true,
+      "visibleForm": true
+    }
+  ]
+}

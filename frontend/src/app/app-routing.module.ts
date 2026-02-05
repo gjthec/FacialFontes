@@ -46,6 +46,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'registro',
+    loadChildren: () =>
+      import('./modules/registro/registro.module').then(
+        (m) => m.RegistroModule
+      ),
+  },
+  {
     path: 'callback',
     loadChildren: () =>
       import('app/core/pages/callback/callback.module').then(
@@ -78,13 +85,6 @@ export const appRoutes: Route[] = [
         path: 'teste',
         loadChildren: () =>
           import('./modules/teste/teste.module').then((m) => m.TesteModule),
-      },
-      {
-        path: 'registro',
-        loadChildren: () =>
-          import('./modules/registro/registro.module').then(
-            (m) => m.RegistroModule
-          ),
       },
       {
         path: 'admin-alunos',

@@ -146,4 +146,34 @@ export class AlunoController {
       next(error);
     }
   }
+
+  async findByMatriculaPublic(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (req.body.tenantConnection == undefined) {
+        throw new NotFoundError("Não foi definido tenant para uso.");
+      }
+
+      const matricula = req.params.matricula;
+
+      if (!matricula) {
+        return res.status(400).json({ message: "Matrícula não informada." });
+      }
+
+      const alunoRepository: AlunoRepository = new AlunoRepository(
+        req.body.tenantConnection as TenantConnection
+      );
+
+      const aluno = await alunoRepository.findOne({ matricula });
+
+      if (!aluno) {
+        return res
+          .status(404)
+          .json({ message: "Aluno não encontrado." });
+      }
+
+      return res.status(200).json(aluno);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
