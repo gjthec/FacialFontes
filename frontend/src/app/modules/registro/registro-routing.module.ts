@@ -5,7 +5,12 @@ import { ListRegistroComponent } from './list-registro/list-registro.component';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: ListRegistroComponent, canActivate: [AuthGuard] },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: ListRegistroComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'new', component: RegistroFormComponent },
   { path: ':id/edit', component: RegistroFormComponent, canActivate: [AuthGuard] },
 ];
