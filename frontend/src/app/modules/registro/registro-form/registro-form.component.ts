@@ -13,7 +13,6 @@ import { BaseResourceFormComponent } from 'app/shared/components/form/form.compo
 import { FormGeneratorService } from 'app/shared/services/form-generator.service';
 import { GeneratedFormFactoryService } from 'app/shared/services/generated-form-factory.service';
 import { environment } from 'environments/environment';
-import { HttpClient } from '@angular/common/http';
 import { AbstractControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, takeUntil } from 'rxjs';
@@ -40,7 +39,6 @@ export class RegistroFormComponent
     protected injector: Injector,
     private generatedFormFactoryService: GeneratedFormFactoryService,
     private formGeneratorService: FormGeneratorService,
-    private http: HttpClient,
     private matSnackBar: MatSnackBar
   ) {
     super(injector, new Registro(), registroService, Registro.fromJson); //Linha alterável com base na classe
