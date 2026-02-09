@@ -38,8 +38,10 @@ export class AuthInterceptor implements HttpInterceptor {
       user = String(this.authService.currentUser.id);
     }
 
-    if (this.tenantService.currentTenant != null) {
-      databaseUsedInRequest = String(this.tenantService.currentTenant.databaseCredential.id);
+    const currentTenant = this.tenantService.currentTenant;
+    const databaseCredentialId = currentTenant?.databaseCredential?.id;
+    if (databaseCredentialId != null) {
+      databaseUsedInRequest = String(databaseCredentialId);
     }
 
     newReq = req.clone({

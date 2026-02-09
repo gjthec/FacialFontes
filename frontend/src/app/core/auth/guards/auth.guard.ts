@@ -8,7 +8,7 @@ import { environment } from 'environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanMatch {
+export class AuthGuard implements CanMatch, CanActivate {
   /**
    * Constructor
    */
@@ -30,6 +30,17 @@ export class AuthGuard implements CanMatch {
    * @param segments
    */
   canMatch(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return this._check(segments);
+  }
+
+  /**
+   * Can activate
+   *
+   * @param route
+   * @param state
+   */
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    const segments = state.url.split('/').filter(Boolean).map((path) => ({ path } as UrlSegment));
     return this._check(segments);
   }
 
