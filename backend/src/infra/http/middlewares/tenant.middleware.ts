@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { getTenantConnection } from "../../database/database.config";
 import { GetSecurityTenantConnectionUseCase } from "../../../useCases/tenant/getSecurityTenantConnection.useCase";
+import { GetDefaultTenantConnectionUseCase } from "../../../useCases/tenant/getDefaultTenantConnection.useCase";
 import TenantConnection from "../../../domain/entities/tenantConnection.model";
 var jwt = require('jsonwebtoken');
 
@@ -65,5 +66,25 @@ export async function getSecurityTenant(req: Request, res: Response, next: NextF
     next();
   } catch (error) {
     return res.status(500).json({ message: "Erro ao obter o tenant", details: error || "Identificador de tenant a ser usado na operação não é válido" });
+  }
+}
+
+export async function getDefaultTenant(req: Request, res: Response, next: NextFunction) {
+  try {
+    const getDefaultTenantConnectionUseCase: GetDefaultTenantConnectionUseCase = new GetDefaultTenantConnectionUseCase();
+
+    const tenantConnection = await getDefaultTenantConnectionUseCase.execute();
+
+    if (tenantConnection == null) {
+      return res.status(500).json({ message: "Tenant padrão não disponível" });
+    }
+
+    req.databaseConnection = tenantConnection;
+    req.body = req.body || {};
+    req.body.tenantConnection = tenantConnection;
+
+    next();
+  } catch (error) {
+    return res.status(500).json({ message: "Erro ao obter o tenant padrão", details: error || "Tenant padrão inválido" });
   }
 }

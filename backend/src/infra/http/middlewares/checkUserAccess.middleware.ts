@@ -76,6 +76,8 @@ export async function checkUserAccess(req: Request, res: Response, next: NextFun
       return errorHandler(new InsufficientPermissionError("Usuário não tem permissão para rota."), req, res, next);
     }
 
+    req.databaseConnection = tenantConnection;
+    req.body = req.body || {};
     req.body.tenantConnection = tenantConnection;
 
     next();
