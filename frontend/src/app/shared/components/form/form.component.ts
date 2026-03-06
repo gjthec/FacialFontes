@@ -96,7 +96,6 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel>
   submitForm() {
     if (this.resourceForm.invalid) {
       this.resourceForm.markAllAsTouched();
-      console.log(this.resourceForm);
       alert(
         'Formulário inválido. Por favor, corrija os campos que estão destacados'
       );
@@ -128,7 +127,6 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel>
         }
       }
     }
-    console.log('childrenData: ', childrenData);
     if (this.currentAction == 'new') {
       this.objectTratament(this.resourceForm.value);
 
@@ -143,17 +141,12 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel>
           }
           //salvar os childrenData no banco de dados usando o id da entidade pai que foi salva antes
           for (let i = 0; i < childrenData.length; i++) {
-            console.log(response.id);
-            console.log(className);
             childrenData[i].item[className] = response.id;
-            console.log(childrenData[i].item[className]);
             let url = environment.backendUrl + '/' + childrenData[i].apiUrl;
             this.objectTratament(childrenData[i].item);
             this.http.post(url, childrenData[i].item).subscribe({
               next: (response) => {
-                console.log('Response: ', response);
               },
-              error: (error) => console.log('Error: ', error),
             });
           }
           this.actionsForSuccess(response);
@@ -230,7 +223,6 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel>
         .subscribe({
           next: (resource) => {
             this.resource = resource;
-            console.log(this.resource);
             //TODO usar transloco nessas mensagens
             if (this.resourceForm == null) {
               console.error('ResourceForm não foi instanciado');
@@ -283,7 +275,6 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel>
   }
 
   protected updateResource() {
-    console.log('ResourceForm: ', this.resourceForm.value);
     this.objectTratament(this.resourceForm.value);
 
     const resource: T = this.jsonDataToResourceFn(this.resourceForm.value);

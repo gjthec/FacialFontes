@@ -253,15 +253,12 @@ export class PictureLocationComponent
    *  Edit thumbnail (igual antigo)
    *  =========================== */
   private loadThumbnailFromValue(value: any) {
-    console.log(value);
     const id = value?.id; // ✅ igual seu antigo
-    console.log(id);
     if (!id) return;
 
     this.fileService.getDataUrlByFieldFileId(id).subscribe({
       next: ({ dataUrl }) => {
         this.savedImageUrl = dataUrl;
-        console.log(this.savedImageUrl);
         this.showImageUrl = true;
       },
       error: (e) => {

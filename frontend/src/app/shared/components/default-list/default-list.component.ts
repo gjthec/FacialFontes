@@ -126,7 +126,7 @@ export interface IDefaultListComponentDialogConfig {
 export class DefaultListComponent
   implements AfterViewInit, OnDestroy, IDefaultListComponentDialogConfig {
   private popStateListener: (event: PopStateEvent) => void;
-  viewMode: string = 'list-layout'; // Definindo o modo padrão como 'list-layout'
+  viewMode: string = 'list-layout';
   @Input() currentView: string; // Valor padrão é 'card'
   @Input() itemsDisplayed: any[] = [];
   @Input() columnsQuantity;
@@ -159,7 +159,7 @@ export class DefaultListComponent
   /**
    * Subject responsável por remover os observadores que estão rodando na pagina no momento do componente ser deletado.
    */
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   /**
    * Itens da lista selecionados
@@ -246,27 +246,21 @@ export class DefaultListComponent
 
   ngAfterViewInit(): void {
     this.stayOnPageInCaseOfDialog();
-    //Título da página
     this.changeTitle();
-    // Inscreve-se no serviço para ouvir as mudanças no modo de exibição
-    this.viewToggleService.viewMode$.subscribe((mode) => {
-      this.viewMode = mode;
-      // Se o modo de visualização for 'card', definir columnsQuantity para 1
-      if (this.viewMode === 'card-layout') {
-        // this.columnsQuantity = 1;
-      } else {
-        // Defina outra quantidade de colunas para outros modos, por exemplo, 3
-        // this.columnsQuantity = 3;
-      }
 
-    });
-    setTimeout(() => {
-      if (this.isEnabledToGetDataFromAPI == true) {
-        this.getDataFromAPI(this.apiUrl);
-      } else {
-        this.getData(this.itemsDisplayed);
-      }
-    }, 0);
+    this.viewMode = this.viewToggleService.getCurrentViewMode();
+
+    this.viewToggleService.viewMode$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((mode) => {
+        this.viewMode = mode;
+      });
+
+    if (this.isEnabledToGetDataFromAPI == true) {
+      this.getDataFromAPI(this.apiUrl);
+    } else {
+      this.getData(this.itemsDisplayed);
+    }
   }
 
   stayOnPageInCaseOfDialog() {

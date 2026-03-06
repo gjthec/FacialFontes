@@ -1,6 +1,6 @@
 import { Application, Router } from "express";
 import { checkUserAccess } from "../middlewares/checkUserAccess.middleware";
-import { getSecurityTenant } from "../middlewares/tenant.middleware";
+import { getDefaultTenant } from "../middlewares/tenant.middleware";
 import validateHeaders from "../validators/index.validator";
 import { AlunoController } from "../controllers/aluno.controller";
 import { createNewAlunoValidator } from "../validators/aluno.validator";
@@ -17,7 +17,7 @@ export default function defineRoute(app: Application) {
 
   router.get(
     "/validate/matricula/:matricula",
-    [getSecurityTenant],
+    [getDefaultTenant],
     controller.findByMatriculaPublic
   );
 

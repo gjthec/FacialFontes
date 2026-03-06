@@ -11,12 +11,13 @@ import RelatorioPresencaRepository from "../../../domain/repositories/relatorioP
 export class RegistroController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      if (req.body.tenantConnection == undefined) {
+      const tenantConnection = req.databaseConnection || req.body?.tenantConnection;
+      if (tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
 
       const alunoRepository: AlunoRepository = new AlunoRepository(
-        req.body.tenantConnection as TenantConnection
+        tenantConnection as TenantConnection
       );
 
       const alunoId = req.body.alunoId;
@@ -31,14 +32,14 @@ export class RegistroController {
       }
 
       const registroRepository: RegistroRepository = new RegistroRepository(
-        req.body.tenantConnection as TenantConnection
+        tenantConnection as TenantConnection
       );
 
       const registro = await registroRepository.create(req.body);
 
       const relatorioRepository: RelatorioPresencaRepository =
         new RelatorioPresencaRepository(
-          req.body.tenantConnection as TenantConnection
+          tenantConnection as TenantConnection
         );
 
       await relatorioRepository.create({
@@ -66,12 +67,13 @@ export class RegistroController {
 
   async findAll(req: Request, res: Response, next: NextFunction) {
     try {
-      if (req.body.tenantConnection == undefined) {
+      const tenantConnection = req.databaseConnection || req.body?.tenantConnection;
+      if (tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
 
       const registroRepository: RegistroRepository = new RegistroRepository(
-        req.body.tenantConnection as TenantConnection
+        tenantConnection as TenantConnection
       );
 
       const baseController: BaseController<IRegistro, Registro> =
@@ -85,12 +87,13 @@ export class RegistroController {
 
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
-      if (req.body.tenantConnection == undefined) {
+      const tenantConnection = req.databaseConnection || req.body?.tenantConnection;
+      if (tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
 
       const registroRepository: RegistroRepository = new RegistroRepository(
-        req.body.tenantConnection as TenantConnection
+        tenantConnection as TenantConnection
       );
 
       const baseController: BaseController<IRegistro, Registro> =
@@ -104,12 +107,13 @@ export class RegistroController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      if (req.body.tenantConnection == undefined) {
+      const tenantConnection = req.databaseConnection || req.body?.tenantConnection;
+      if (tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
 
       const registroRepository: RegistroRepository = new RegistroRepository(
-        req.body.tenantConnection as TenantConnection
+        tenantConnection as TenantConnection
       );
 
       const baseController: BaseController<IRegistro, Registro> =
@@ -123,12 +127,13 @@ export class RegistroController {
 
   async getCount(req: Request, res: Response, next: NextFunction) {
     try {
-      if (req.body.tenantConnection == undefined) {
+      const tenantConnection = req.databaseConnection || req.body?.tenantConnection;
+      if (tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
 
       const registroRepository: RegistroRepository = new RegistroRepository(
-        req.body.tenantConnection as TenantConnection
+        tenantConnection as TenantConnection
       );
 
       const baseController: BaseController<IRegistro, Registro> =
@@ -142,12 +147,13 @@ export class RegistroController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      if (req.body.tenantConnection == undefined) {
+      const tenantConnection = req.databaseConnection || req.body?.tenantConnection;
+      if (tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
 
       const registroRepository: RegistroRepository = new RegistroRepository(
-        req.body.tenantConnection as TenantConnection
+        tenantConnection as TenantConnection
       );
 
       const baseController: BaseController<IRegistro, Registro> =
@@ -161,12 +167,13 @@ export class RegistroController {
 
   async customQuery(req: Request, res: Response, next: NextFunction) {
     try {
-      if (req.body.tenantConnection == undefined) {
+      const tenantConnection = req.databaseConnection || req.body?.tenantConnection;
+      if (tenantConnection == undefined) {
         throw new NotFoundError("Não foi definido tenant para uso.");
       }
 
       const registroRepository: RegistroRepository = new RegistroRepository(
-        req.body.tenantConnection as TenantConnection
+        tenantConnection as TenantConnection
       );
 
       const baseController: BaseController<IRegistro, Registro> =

@@ -14,4 +14,12 @@
         "tipoPessoa": "Type Person",
         "foto": "foto"
     }
+
+,
+"RegistroPresenca": {
+        "RegistroPresenca": "Attendance Check-in",
+        "matricula": "Registration",
+        "cursoId": "Course",
+        "foto": "Photo"
+    }
 }
