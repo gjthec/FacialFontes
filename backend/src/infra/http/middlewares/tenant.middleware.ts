@@ -40,6 +40,8 @@ export default async function getUserTenant(req: Request, res: Response, next: N
       return res.status(404).json({ message: 'Tenant não encontrado' });
     }
 
+    req.databaseConnection = tenantConnection;
+    req.body = req.body || {};
     req.body.tenantConnection = tenantConnection;
 
     next();
@@ -55,7 +57,10 @@ export async function getSecurityTenant(req: Request, res: Response, next: NextF
 
     const getSecurityTenantConnectionUseCase: GetSecurityTenantConnectionUseCase = new GetSecurityTenantConnectionUseCase();
 
-    req.body.tenantConnection = await getSecurityTenantConnectionUseCase.execute();
+    const tenantConnection = await getSecurityTenantConnectionUseCase.execute();
+    req.databaseConnection = tenantConnection;
+    req.body = req.body || {};
+    req.body.tenantConnection = tenantConnection;
 
     next();
   } catch (error) {

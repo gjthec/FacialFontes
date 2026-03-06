@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnDestroy, Optional, Output, QueryList, ViewChildren, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Optional, Output, QueryList, ViewChildren, ViewContainerRef } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
@@ -30,7 +30,7 @@ export interface ICreateSpaceStepper{
   templateUrl: './form-space-build.component.html',
   styleUrls: ['./form-space-build.component.scss']
 })
-export class FormSpaceBuildComponent implements AfterViewInit, OnDestroy {
+export class FormSpaceBuildComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * FormGroup que armazena os dados do formuário. Todas os dados vão diretamente para ele, para assim ir para as APIs.
    */
@@ -97,26 +97,36 @@ export class FormSpaceBuildComponent implements AfterViewInit, OnDestroy {
     protected route: ActivatedRoute,
     protected translocoService: TranslocoService,
     private location: Location,
-    private cdr: ChangeDetectorRef,
     @Optional() private matDialogComponentRef: MatDialogRef<GeneratedSimpleFormComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data?: any,
     ) { }
 
+
+  ngOnInit(): void {
+    if(this.data){
+      this.setDialogData();
+    }
+
+    if(this.dataToCreatePage?.config?.isFormStepper){
+      this.formStepperStructure = [];
+      this.dataToCreatePageSteps = [];
+      this.buildStepperStructure();
+      this.buildDataToCreatePageSteps();
+    }
+  }
+
   ngAfterViewInit(): void {
     this.stayOnPageInCaseOfDialog();
-    if(this.data){
-      this.setDialogData();      
-    }
     this.checkTypeOfForm();
   }
 
-  async checkTypeOfForm() {
-    if(this.dataToCreatePage.config.isFormStepper){
-      await this.generateStepFormList();
+  checkTypeOfForm() {
+    if(this.dataToCreatePage?.config?.isFormStepper){
+      this.generateStepFormList();
+      return;
     }
-    if(!this.dataToCreatePage.config.isFormStepper){
-      this.generateSimpleFormList();
-    }
+
+    this.generateSimpleFormList();
   }
 
   /**
@@ -136,30 +146,31 @@ export class FormSpaceBuildComponent implements AfterViewInit, OnDestroy {
     let simpleForm = this.formSpaceBuild.createComponent(send);
   }
 
-  async generateStepFormList() {
-    this.formStepperStructure = [];
-    this.buildStepperStructure();
-    this.buildDataToCreatePageSteps();
-    setTimeout(() => {
-      this.dataToCreatePageSteps.forEach((data, index) => {
-        data = this.subFormLastAttribute(data);
-        let send: ICreateSpace = {
-          resourceForm: this.resourceForm,
-          className: this.className,
-          target:this.target.toArray()[index],
-          value: data,
-          dataToCreatePage: data,
-          getDataFromAPIFunction: () => {
-            if(index === this.dataToCreatePageSteps.length - 1){
-              this.isLoading = false;
-              this.formIsReady.emit(true);
-            }
+  generateStepFormList() {
+    const targets = this.target.toArray();
+    if (targets.length === 0 || targets.length < this.dataToCreatePageSteps.length) {
+      queueMicrotask(() => this.generateStepFormList());
+      return;
+    }
+
+    this.dataToCreatePageSteps.forEach((data, index) => {
+      data = this.subFormLastAttribute(data);
+      let send: ICreateSpace = {
+        resourceForm: this.resourceForm,
+        className: this.className,
+        target: targets[index],
+        value: data,
+        dataToCreatePage: data,
+        getDataFromAPIFunction: () => {
+          if(index === this.dataToCreatePageSteps.length - 1){
+            this.isLoading = false;
+            this.formIsReady.emit(true);
           }
         }
-        
-        let simpleForm = this.formSpaceBuild.createComponent(send);
-        });
-      });
+      }
+
+      this.formSpaceBuild.createComponent(send);
+    });
   }
 
   getDataFromAPIFunction(){

@@ -50,8 +50,7 @@ export class GeneratedSimpleFormComponent implements AfterViewInit {
    * Função que irá criar cada campo de preenchimento de acordo com as variáveis da classe do formulário.
    */
   generateSimpleFormList() {
-    setTimeout(() => {
-      this.dataToCreatePage.attributes.forEach((attribute, index) => {
+    this.dataToCreatePage.attributes.forEach((attribute, index) => {
 
         const createComponentData : ICreateComponentParams = {
           target:this.target,
@@ -84,9 +83,8 @@ export class GeneratedSimpleFormComponent implements AfterViewInit {
 
         this.formGenerator.createComponent(createComponentData)
 
-      });
-      this.formIsReady.emit(true);
-      this.cdr.detectChanges();
-    }, 0);
+    });
+    this.formIsReady.emit(true);
+    this.cdr.detectChanges();
   }
 }

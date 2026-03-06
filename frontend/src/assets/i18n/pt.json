@@ -14,4 +14,12 @@
         "tipoPessoa": "tipo Pessoa",
         "foto": "foto"
     }
+
+,
+"RegistroPresenca": {
+        "RegistroPresenca": "Registro de Presença",
+        "matricula": "Matrícula",
+        "cursoId": "Curso",
+        "foto": "Foto"
+    }
 }
