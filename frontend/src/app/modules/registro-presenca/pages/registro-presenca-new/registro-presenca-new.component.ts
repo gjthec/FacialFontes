@@ -22,6 +22,7 @@ export class RegistroPresencaNewComponent implements OnInit {
   student?: Student;
 
   isValidating = false;
+  isSearchingCourses = false;
   isVerifyingFace = false;
   isRegistering = false;
 
@@ -42,9 +43,7 @@ export class RegistroPresencaNewComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {
-    this.mock.listCourses().subscribe((c) => (this.courses = c));
-  }
+  ngOnInit(): void {}
 
   onSelectCourse(): void {
     this.error = undefined;
@@ -55,6 +54,41 @@ export class RegistroPresencaNewComponent implements OnInit {
     const courseId = this.form.value.courseId;
     this.selectedCourse =
       this.courses.find((c) => c.id === courseId) ?? undefined;
+  }
+
+  searchCoursesByEnrollment(): void {
+    this.error = undefined;
+    this.student = undefined;
+    this.faceOk = false;
+    this.receipt = undefined;
+
+    const code = this.form.value.code;
+
+    if (!code) {
+      this.error = 'Informe a matrícula para buscar os cursos.';
+      return;
+    }
+
+    this.isSearchingCourses = true;
+    this.form.controls.courseId.setValue('');
+    this.selectedCourse = undefined;
+
+    this.mock.listCoursesByEnrollment(code).subscribe({
+      next: (res) => {
+        this.isSearchingCourses = false;
+        this.later(() => {
+          this.courses = res.courses;
+
+          if (res.courses.length === 0) {
+            this.error = 'Você não está matriculado em nenhum curso.';
+          }
+        });
+      },
+      error: () => {
+        this.isSearchingCourses = false;
+        this.later(() => (this.error = 'Falha ao buscar cursos (FAKE).'));
+      },
+    });
   }
 
   validateEnrollment(): void {
@@ -166,6 +200,7 @@ export class RegistroPresencaNewComponent implements OnInit {
   reset(): void {
     this.form.reset({ courseId: '', code: '' });
     this.selectedCourse = undefined;
+    this.courses = [];
     this.student = undefined;
     this.faceOk = false;
     this.faceScore = undefined;
